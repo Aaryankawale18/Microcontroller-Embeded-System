@@ -1,0 +1,40 @@
+ORG 0000H
+
+    MOV A, #06H
+    MOV R2, A       ; First number
+
+    MOV A, #05H
+    MOV R3, A       ; Second number
+
+LOOP_CMP:
+    MOV A, R2
+    JNZ CHECK_SECOND
+
+    ; R2 is zero
+    MOV A, R3
+    JZ NUM_EQUAL
+    SJMP FIRST_SMALLER
+
+CHECK_SECOND:
+    MOV A, R3
+    JZ FIRST_LARGER
+
+    DEC R2
+    DEC R3
+    SJMP LOOP_CMP
+
+FIRST_LARGER:
+    MOV 52H, #01H
+    SJMP STOP
+
+FIRST_SMALLER:
+    MOV 52H, #0FFH
+    SJMP STOP
+
+NUM_EQUAL:
+    MOV 52H, #00H
+
+STOP:
+    SJMP STOP
+
+END
